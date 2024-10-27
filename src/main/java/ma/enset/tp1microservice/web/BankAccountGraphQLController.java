@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import ma.enset.tp1microservice.dtos.BankAccountRequestDTO;
 import ma.enset.tp1microservice.dtos.BankAccountResponseDTO;
 import ma.enset.tp1microservice.entities.BankAccount;
+import ma.enset.tp1microservice.entities.Customer;
 import ma.enset.tp1microservice.repositories.BankAccountRepository;
+import ma.enset.tp1microservice.repositories.CustomerRepository;
 import ma.enset.tp1microservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -20,6 +22,8 @@ import java.util.List;
 public class BankAccountGraphQLController {
     @Autowired
     private BankAccountRepository bankAccountRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
     @Autowired
     private AccountService accountService;
 
@@ -48,6 +52,11 @@ public class BankAccountGraphQLController {
     public Boolean deleteAccount(@Argument String id){
         accountService.deleteAccount(id);
         return true;
+    }
+
+    @QueryMapping
+    public List<Customer> customers() {
+        return customerRepository.findAll();
     }
 }
 
